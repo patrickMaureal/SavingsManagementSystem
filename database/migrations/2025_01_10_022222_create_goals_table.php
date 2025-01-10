@@ -16,7 +16,7 @@ return new class extends Migration
 			$table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
 			$table->string('name');
 			$table->decimal('target_amount', 10, 2);
-			$table->decimal('current_amount', 10, 2);
+			$table->decimal('current_amount', 10, 2)->default(0);
 			$table->date('start_date');
 			$table->date('end_date');
 			$table->enum('status', [ 'active', 'completed', 'archived'])->default('active');
