@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Goal\StoreGoalRequest;
+use App\Http\Requests\Goal\UpdateGoalRequest;
 use App\Models\Goal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,7 @@ class GoalController extends Controller
       'end_date' => $data['end_date'],
     ]);
 
-		return redirect()->route('goals.index')->with('success', 'Goal created successfully!');
+		return redirect()->route('goals.index');
 		
 	}
 
@@ -56,17 +57,25 @@ class GoalController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 */
-	public function edit(Goal $goal)
+	public function edit(Goal $goal )
 	{
-		//
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 */
-	public function update(Request $request, Goal $goal)
+	public function update(UpdateGoalRequest $request, Goal $goal)
 	{
-		//
+		
+		$data = $request->validated();
+
+		$goal->name = $data['name'];
+		$goal->target_amount = $data['target_amount'];
+		$goal->start_date = $data['start_date'];
+		$goal->end_date = $data['end_date'];
+		$goal->save();
+
+		return redirect()->route('goals.index');
 	}
 
 	/**
@@ -74,6 +83,7 @@ class GoalController extends Controller
 	 */
 	public function destroy(Goal $goal)
 	{
-		//
+		$goal->delete();
+		return redirect()->route('goals.index');
 	}
 }
